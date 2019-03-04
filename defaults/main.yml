@@ -1,0 +1,22 @@
+---
+certbot_enable: true
+certbot_webroot_path_path: /tmp/letsencrypt-webroot-share/
+
+# Parameters used when creating new Certbot certs.
+certbot_create_if_missing: false
+certbot_admin_email: email@example.com
+certbot_certs: []
+# - email: janedoe@example.com
+#   domains:
+#     - example1.com
+#     - example2.com
+# - domains:
+#     - example3.com
+certbot_create_cert_webroot_command: >-
+  {{ certbot_script }} certonly --quiet --noninteractive --agree-tos
+  --email {{ cert_item.email | default(certbot_admin_email) }}
+  -d {{ cert_item.domains | join(',') }} --webroot -w {{ certbot_webroot_path }}
+
+# Copying
+generated_certs_copy: false
+generated_certs_copy_path: ''
