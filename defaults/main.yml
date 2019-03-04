@@ -17,7 +17,7 @@ certbot_certs: []
 certbot_create_cert_webroot_command: >-
   {{ certbot_script }} certonly --quiet --noninteractive --agree-tos
   --email {{ cert_item.email | default(certbot_admin_email) }}
-  -d {{ cert_item.domains | join(',') }} --webroot -w {{ certbot_webroot_path }}
+  -d {{ cert_item.domains | join(',') }} --webroot -w {{ certbot_webroot_local_path }}
 
 # Copying
 generated_certs_copy_to_local: false

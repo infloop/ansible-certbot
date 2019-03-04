@@ -1,7 +1,7 @@
 ---
 - name: Create temp webroot folder
   file:
-    path: "{{ certbot_webroot_path }}"
+    path: "{{ certbot_webroot_local_path }}"
     state: directory
   delegate_to: localhost
 
@@ -35,20 +35,20 @@
   debug:
     msg: "{{ do_cert_renewal }}"
 
-- name: Mount remote {{ certbot_webroot_remote_path }} folder to local {{ certbot_webroot_path }}
-  command: sshfs root@{{ host_ip }}:/var/www/letsencrypt/ {{ certbot_webroot_path }}
+- name: Mount remote {{ certbot_webroot_remote_path }} folder to local {{ certbot_webroot_local_path }}
+  command: sshfs root@{{ host_ip }}:{{ certbot_webroot_remote_path }} {{ certbot_webroot_local_path }}
   when: do_cert_renewal == true
   delegate_to: localhost
 
-- name: Generate new certificate if no certificate found in {{ /etc/letsencrypt/live/{{ cert_item.domains | first | replace('*.', '') }}/cert.pem }} or it is not valid
+- name: Generate new certificate if no certificate found in /etc/letsencrypt/live/{{ cert_item.domains | first | replace('*.', '') }}/cert.pem or it is not valid
   shell: "{{ certbot_create_cert_webroot_command }}"
   when: do_cert_renewal == true
   delegate_to: localhost
   register: cert_generation_result
   ignore_errors: true
 
-- name: Unmount remote /var/www/letsencrypt/ folder from local {{ certbot_webroot_path }}
-  command: fusermount -u {{ certbot_webroot_path }}
+- name: Unmount remote {{ certbot_webroot_remote_path }} folder from local {{ certbot_webroot_local_path }}
+  command: fusermount -u {{ certbot_webroot_local_path }}
   when: do_cert_renewal == true
   delegate_to: localhost
 
