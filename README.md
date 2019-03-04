@@ -28,8 +28,15 @@ SSHF installed locally.
 ## Example Playbook
 
     - hosts: servers
+      vars:
+        certbot_admin_email: 'admin@test.com'
+        certbot_certs:
+          - domains:
+            - www.test.com
+            - test.com
       roles:
          - { role: infloop.ansible-certbot }
+      
          
 ## Example Requirements
 
