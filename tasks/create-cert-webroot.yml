@@ -35,7 +35,7 @@
   debug:
     msg: "{{ do_cert_renewal }}"
 
-- name: Mount remote /var/www/letsencrypt/ folder to local {{ certbot_webroot_path }}
+- name: Mount remote {{ certbot_webroot_remote_path }} folder to local {{ certbot_webroot_path }}
   command: sshfs root@{{ host_ip }}:/var/www/letsencrypt/ {{ certbot_webroot_path }}
   when: do_cert_renewal == true
   delegate_to: localhost
