@@ -23,7 +23,7 @@ None
 
 ## Dependencies
 
-SSHF installed locally.
+SSHFS installed locally.
 
 ## Example Playbook
 
