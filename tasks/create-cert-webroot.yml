@@ -22,6 +22,7 @@
   when: letsencrypt_cert.stat.exists
   register: letsencrypt_cert_validity
   delegate_to: localhost
+  ignore_errors: true
 
 - name: Set flag to renew certificate if needed
   set_fact:
